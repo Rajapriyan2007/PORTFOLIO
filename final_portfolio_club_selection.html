@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rajapriyan | Interactive Portfolio</title>
+
+<!-- Three.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+
+<style>
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --accent: #58a6ff;
+  --text: #e6edf3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #161b22, #0d1117);
+  color: var(--text);
+}
+
+header {
+  text-align: center;
+  padding: 4rem 1rem 2.5rem;
+}
+
+.profile-img {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--accent);
+  box-shadow: 0 0 35px #58a6ff66;
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin: 1rem 0 0.3rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+
+.socials {
+  margin-top: 1rem;
+}
+
+.socials a {
+  color: var(--accent);
+  text-decoration: none;
+  margin: 0 1rem;
+  font-weight: 500;
+}
+
+canvas {
+  width: 100%;
+  height: 360px;
+  display: block;
+}
+
+section {
+  max-width: 950px;
+  margin: auto;
+  padding: 2.2rem 1.5rem;
+}
+
+section h2 {
+  margin-bottom: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.6rem;
+  margin-top: 1.2rem;
+}
+
+.skills span {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 6px;
+  border-radius: 20px;
+  background: #1f6feb22;
+  border: 1px solid #1f6feb55;
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  opacity: 0.65;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="portfolio.png" alt="Rajapriyan" class="profile-img" />
+  <h1>Rajapriyan</h1>
+  <p class="subtitle">Frontend Developer • JavaScript • 3D Web Engineering</p>
+
+  <div class="socials">
+    <a href="https://github.com/Rajapriyan" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/Rajapriyan" target="_blank">LinkedIn</a>
+  </div>
+</header>
+
+<!-- 3D INTERACTIVE SCENE -->
+<canvas id="threeCanvas"></canvas>
+
+<section>
+  <h2>About Me</h2>
+  <div class="card">
+    <p>
+      I am a frontend developer who enjoys building clean, performant, and
+      interactive web experiences. I focus on understanding how things work
+      under the hood — from rendering pipelines to animation loops — and I
+      enjoy translating that knowledge into intuitive user interfaces.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Why Three.js?</h2>
+  <div class="card">
+    <p>
+      I used Three.js to explore real-time 3D rendering on the web.
+      This project helped me understand camera perspective, lighting models,
+      render loops using <code>requestAnimationFrame</code>, and how
+      interactivity impacts performance and user experience.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Skills</h2>
+  <div class="card skills">
+    <span>HTML</span>
+    <span>CSS</span>
+    <span>JavaScript</span>
+    <span>Three.js</span>
+    <span>Git & GitHub</span>
+    <span>UI / UX</span>
+  </div>
+</section>
+
+<section>
+  <h2>Projects</h2>
+
+  <div class="card">
+    <h3>Sorting Algorithm Visualizer</h3>
+    <p>
+      A JavaScript-based visualization tool for Bubble Sort, Merge Sort,
+      and Quick Sort, focusing on animation timing, DOM efficiency,
+      and algorithmic clarity.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Interactive 3D Portfolio</h3>
+    <p>
+      This portfolio itself is a project — combining UI design with
+      Three.js to create an interactive 3D scene that responds to user input
+      while maintaining smooth performance.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Achievements & Interests</h2>
+  <div class="card">
+    <ul>
+      <li>Active problem solving on LeetCode and CodeChef</li>
+      <li>Strong foundations in DSA and core CS concepts</li>
+      <li>Interested in performance optimization and frontend architecture</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  © 2025 Rajapriyan • Built with intention
+</footer>
+
+<script>
+const canvas = document.getElementById('threeCanvas');
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 360, 0.1, 1000);
+
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas,
+  antialias: true,
+  alpha: true
+});
+renderer.setSize(canvas.clientWidth, 360);
+renderer.setPixelRatio(window.devicePixelRatio);
+
+const geometry = new THREE.IcosahedronGeometry(1, 1);
+const material = new THREE.MeshStandardMaterial({
+  color: 0x58a6ff,
+  metalness: 0.6,
+  roughness: 0.35
+});
+
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+const pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(4, 4, 6);
+scene.add(pointLight);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+camera.position.z = 3;
+
+window.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 0.8;
+  const y = (e.clientY / window.innerHeight - 0.5) * 0.8;
+  mesh.rotation.y = x;
+  mesh.rotation.x = y;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  mesh.rotation.y += 0.003;
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  renderer.setSize(canvas.clientWidth, 360);
+  camera.aspect = canvas.clientWidth / 360;
+  camera.updateProjectionMatrix();
+});
+</script>
+
+</body>
+</html>
